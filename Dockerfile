@@ -51,19 +51,19 @@ ENTRYPOINT echo '\n\
  	~/.elasticluster/config\n\ 
  to reflect your own credentials and needs before you start a cluster.\n\
  to start a cluster, use:\n\
- 	$ elasticluster -vvvv start <cluster-name>\n\
+ 	$ elasticluster start <your-cluster-name>\n\
  DO NOT forget to stop your cluster after use to avoid getting charged:\n\
- 	$ elasticluster -vvvv stop <cluster-name>\n\n\
+ 	$ elasticluster stop <your-cluster-name>\n\n\
  Useful commands:\n\
  list running clusters:           $ elasticluster list\n\ 	
  list configured clusters:        $ elasticluster list-templates\n\ 	
- list nodes of running clusters:  $ elasticluster list-nodes <cluster-name>\n\
+ list nodes of running clusters:  $ list-nodes <your-cluster-name>\n\
  for more  info, visit\n\ 
  	http://elasticluster.readthedocs.io/en/latest/usage.html\n\				
  This image originally designed for the Stanford course STATS285\n\ 
  (Massive Computational Experiments, Painlessly)\n\ 	 
  Author: Hatef Monajemi (monajemi@stanford.edu)\n\
- Stanford, Nov 2017\n\
+ Stanford, July 2017\n\
 **************************************************************************\n' \
  	&& /bin/bash
 	
