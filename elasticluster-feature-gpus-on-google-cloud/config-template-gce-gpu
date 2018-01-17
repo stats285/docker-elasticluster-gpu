@@ -23,10 +23,16 @@ user_key_name=elasticluster
 user_key_private=~/.ssh/id_rsa
 user_key_public=~/.ssh/id_rsa.pub
 
+
 [setup/ansible-slurm]
 provider=ansible
 frontend_groups=slurm_master
-compute_groups=slurm_worker
+compute_groups=slurm_worker,cuda
+# allow restart of compute nodes
+compute_var_allow_reboot=yes
+global_var_slurm_taskplugin=task/cgroup
+global_var_slurm_proctracktype=proctrack/cgroup
+global_var_slurm_jobacctgathertype=jobacct_gather/cgroup
 
 
 [cluster/gce]
@@ -46,11 +52,11 @@ boot_disk_size=500
 [cluster/gce/frontend]
 flavor=n1-standard-8
 
-# add 1x GPUs (NVidia Tesla K80) to the compute nodes
+# add 2x GPUs (NVidia Tesla K80) to the compute nodes
 # note that as of Nov. 2017, GPU-enabled VMs are available only in few zones
 # use `gcloud compute accelerator-types list` to see what is available
 
 [cluster/gce/compute]
 flavor=n1-standard-8
-accelerator_count=1
+accelerator_count=2
 accelerator_type=nvidia-tesla-k80

@@ -17,6 +17,7 @@
    make it easy to spot a missing or duplicate reference.
 
 .. _`Amazon's Elastic Compute Cloud EC2`: http://aws.amazon.com/ec2/
+.. _`Anaconda`: https://www.anaconda.com/
 .. _`Ansible`: http://ansible.com/
 .. _`Apache LibCloud`: https://libcloud.readthedocs.io/
 .. _`Bigtop`: http://bigtop.apache.org/
@@ -24,6 +25,7 @@
 .. _`CentOS`: http://www.centos.org/
 .. _`Ceph`: http://ceph.com/
 .. _`Debian GNU/Linux`: http://www.debian.org
+.. _EasyBuild: http://easybuild.readthedocs.io/
 .. _`elasticluster`: http://gc3-uzh-ch.github.io/elasticluster/
 .. _`example configuration file`: https://github.com/gc3-uzh-ch/elasticluster/raw/master/elasticluster/share/etc/config.template
 .. _`Ganglia`: http://ganglia.info
@@ -39,6 +41,10 @@
 .. _`Hive`: http://hive.apache.org/
 .. _`HTCondor`: http://research.cs.wisc.edu/htcondor/
 .. _`IPython cluster`: http://ipython.org/ipython-doc/dev/parallel/
+.. _`Jupyter`: http://jupyter.org/
+.. _`JupyterHub`: http://jupyterhub.readthedocs.io/
+.. _Lmod: http://lmod.readthedocs.io/en/latest/
+.. _Lua: http://www.lua.org/
 .. _`mailing-list`: https://groups.google.com/forum/#!forum/elasticluster
 .. _`OpenStack`: http://www.openstack.org/
 .. _`OrangeFS`: http://orangefs.org/
@@ -46,6 +52,7 @@
 .. _`PyPI`: https://pypi.python.org/pypi
 .. _`python virtualenv`: https://pypi.python.org/pypi/virtualenv
 .. _`Python`: http://www.python.org
+.. _`R language`: http://www.r-project.org/
 .. _`Services and Support for Science IT`: http://www.s3it.uzh.ch/
 .. _`SoGE`: https://arc.liv.ac.uk/trac/SGE
 .. _`Spark`: http://spark.apache.org/

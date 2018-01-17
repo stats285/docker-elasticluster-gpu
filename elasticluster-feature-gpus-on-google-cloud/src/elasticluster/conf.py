@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-# Copyright (C) 2013-2016 University of Zurich.
+# Copyright (C) 2013-2016, 2018 University of Zurich.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,10 +59,12 @@ from elasticluster.utils import environment
 from elasticluster.validate import (
     boolean,
     executable_file,
+    existing_file,
     hostname,
     nonempty_str,
     nonnegative_int,
     nova_api_version,
+    positive_int,
     readable_file,
     url,
 )
@@ -157,6 +159,7 @@ CLOUD_PROVIDER_SCHEMAS = {
         "provider": 'azure',
         "subscription_id": nonempty_str,
         "certificate": nonempty_str,
+        Optional("wait_timeout", default=600): positive_int,
     },
 
     'ec2_boto': {
@@ -185,6 +188,7 @@ CLOUD_PROVIDER_SCHEMAS = {
     'openstack': {
         "provider": 'openstack',
         Optional("auth_url"): url,
+        Optional("cacert"): existing_file,
         Optional("username"): nonempty_str,
         Optional("password"): nonempty_str,
         Optional("user_domain_name"): nonempty_str,

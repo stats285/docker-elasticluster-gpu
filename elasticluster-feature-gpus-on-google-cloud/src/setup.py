@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-#
 #
 #
-# Copyright (C) 2013-2017 University of Zurich. All rights reserved.
+# Copyright (C) 2013-2018 University of Zurich. All rights reserved.
 #
 #
 # This program is free software; you can redistribute it and/or modify it
@@ -87,6 +87,8 @@ if python_version == (2, 6):
         'argparse',
         # - OpenStack's "keystoneclient" requires `importlib`
         'importlib',
+        # Paramiko ceased support for Python 2.6 in version 2.4.0
+        'paramiko<2.4',
         # - support for Python 2.6 was removed from `novaclient` in commit
         #   81f8fa655ccecd409fe6dcda0d3763592c053e57 which is contained in
         #   releases 3.0.0 and above; however, we also need to pin down
@@ -109,6 +111,8 @@ if python_version == (2, 6):
     ]
 elif python_version == (2, 7):
     version_dependent_requires = [
+        # Paramiko ceased support for Python 2.6 so we need it here
+        'paramiko',
         # OpenStack
         'python-keystoneclient',
         'python-glanceclient',
@@ -181,13 +185,15 @@ setup(
             'elasticluster = elasticluster.__main__:main',
         ]
     },
+    setup_requires=['Babel>=2.3.4'],  # see Issue #268
     install_requires=([
+        # ElastiCluster core requirements
+        'pip>=9.0.0',  ## see issue #433
         'PyCLI',
         'ansible>=2.2.3,!=2.3.0,<2.4',  ## whitelist only "known good" versions of Ansible
         'click>=4.0',  ## click.prompt() added in 4.0
         'coloredlogs',
         'netaddr',
-        'paramiko',
         'schema',
         'subprocess32',  ## stdlib subprocess but correct under multithreading
         # EC2 clouds
@@ -203,7 +209,7 @@ setup(
         #'azure',  ## only available on Py 2.7, see `version_dependent_requires`
         # OpenStack clouds
         'netifaces',
-        'apache-libcloud',
+        'apache-libcloud>=0.14.0',
         'requests~=2.14.1',  ## see issue #441
         #'python-novaclient' ## this needs special treatment depending on Python version
     ] + version_dependent_requires),

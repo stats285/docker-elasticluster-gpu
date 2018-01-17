@@ -94,7 +94,6 @@
     mode: 0444
   with_items:
     - slurm.conf
-    - gres.conf
 
 
 - name: Install support packages (Debian/Ubuntu)

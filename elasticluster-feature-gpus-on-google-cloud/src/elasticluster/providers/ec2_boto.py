@@ -69,7 +69,6 @@ class BotoCloudProvider(AbstractCloudProvider):
                  request_floating_ip=False, instance_profile=None,
                  price=0.0, timeout=0):
         self._url = ec2_url
-        self._region_name = ec2_region
         self._access_key = ec2_access_key
         self._secret_key = ec2_secret_key
         self._vpc = vpc
@@ -94,11 +93,18 @@ class BotoCloudProvider(AbstractCloudProvider):
         else:
             self._secure = False
 
+        self._region = boto.ec2.get_region(
+            ec2_region,
+            aws_access_key_id=self._access_key,
+            aws_secret_access_key=self._secret_key,
+            is_secure=self._secure,
+            host=self._ec2host, port=self._ec2port,
+            path=self._ec2path)
+
         # will be initialized upon first connect
         self._ec2_connection = None
         self._vpc_connection = None
         self._vpc_id = None
-        self._region = None
 
         self._instances = {}
         self._cached_instances = []
@@ -121,13 +127,7 @@ class BotoCloudProvider(AbstractCloudProvider):
             log.debug("Connecting to EC2 endpoint %s", self._ec2host)
 
             # connect to webservice
-            ec2_connection = boto.ec2.connect_to_region(
-                self._region_name,
-                aws_access_key_id=self._access_key,
-                aws_secret_access_key=self._secret_key,
-                is_secure=self._secure,
-                host=self._ec2host, port=self._ec2port,
-                path=self._ec2path)
+            ec2_connection = self._region.connect()
             log.debug("EC2 connection has been successful.")
 
             if self._vpc:
@@ -136,20 +136,23 @@ class BotoCloudProvider(AbstractCloudProvider):
                     aws_secret_access_key=self._secret_key,
                     is_secure=self._secure,
                     host=self._ec2host, port=self._ec2port,
-                    path=self._ec2path, region=region)
+                    path=self._ec2path, region=self._region)
                 log.debug("VPC connection has been successful.")
 
                 for vpc in vpc_connection.get_all_vpcs():
-                    log.debug("Checking whether %s matches %s/%s" %
-                        (self._vpc, vpc.tags['Name'], vpc.id))
-                    if self._vpc in [vpc.tags['Name'], vpc.id]:
+                    matches = [vpc.id]
+                    if 'Name' in vpc.tags:
+                        matches.append(vpc.tags['Name'])
+                    if self._vpc in matches:
                         self._vpc_id = vpc.id
                         if self._vpc != self._vpc_id:
-                            log.debug("VPC %s matches %s" %
-                                (self._vpc, self._vpc_id))
+                            # then `self._vpc` is the VPC's name
+                            log.debug(
+                                "VPC `%s` has ID `%s`",
+                                self._vpc, self._vpc_id)
                         break
                 else:
-                    raise VpcError('VPC %s does not exist.' % self._vpc)
+                    raise VpcError('Cannot find VPC `{0}`.'.format(self._vpc))
 
             # list images to see if the connection works
             # images = self._ec2_connection.get_all_images()
